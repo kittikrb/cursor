@@ -1,4 +1,17 @@
 language: ruby
+sudo: false
+cache: bundler
 rvm:
-  - 2.2.2
+- 2.3.0
+- 2.2
 before_install: gem install bundler -v 1.10.6
+gemfile:
+- Gemfile
+deploy:
+  provider: rubygems
+  api_key:
+    secure: dIcDqN4zjlei9rpB227rijtPZhFAmB/SeOYnjJ8FYmPSvEOv5L51PdTCMZqk42gyQ4WPU25MPoLqSB2oYY1wIyDVoAqtGjdv482w7Ifo5uifs+eLD4nhcTKu3z2wX1upV5JtGKNNG9BgAHBSXEnpdx6QMsjCPE/pEHLZ+JD4ToepnyIo0MV+uoO/DozckAWuBiIJh33bDY51kPNYzc7T9mONsVk5RMGglXbUZPAOpmKC7SLsYngXgjomSqb1RIR6gKVEluwffykci6TttozgwWE5+NyvvCs3hhCQHuI28iUIP/e81imXDNnCDt9gkG+0B8nDS0l7l+vXs5RSOycOowLmwhs8l1JbwIpD6duwUhIBWKYEkFNJHw7OYnkyGDRlpQNbN1Y42ZB1/+QalN2BhvmOzYq9oEN2gYbYqRQTI8DKjYwav/3zZjKOrsEaDY/H+myQxuVu+Li9uxBCkkxdxDySCy5/8YOZaxvgbZxeQEoPCDb0lj2gWBFLdcfdcWt6vmtN9suDqzaqlOdvyIKg+JKM0Oo1wrJReYyu0Axx0DlgYjkaZEu5pScLz1FKG0BcV8q/bjG9Zl/SOMsIOcYQnd5hBU90L3pfRDyFXIauSTZIDkNHfiB05m7Y3jBjDHoX2tBRQujea1lsDty2w61yO/g86hwLV6/eYO6B0hM+dAo=
+  gem: kittikrb-cursor
+  on:
+    tags: true
+    repo: kittikrb/cursor
