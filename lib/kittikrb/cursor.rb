@@ -2,8 +2,9 @@ require 'kittikrb/cursor/version'
 
 module KittikRb
   module Cursor
-    def initialize
-
+    class Cursor
+      def initialize
+      end
     end
   end
 end
