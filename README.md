@@ -1,5 +1,7 @@
 # KittikRb::Cursor
 
+![Build Status](https://img.shields.io/travis/kittikrb/cursor.svg)
+
 Implements low-level API for access to cursor in terminal.
 
 ## Installation
