@@ -1,9 +1,11 @@
 require 'kittikrb/cursor/version'
+require 'kittikrb/cursor/colors'
 require 'kittikrb/cursor/display_modes'
 
 module KittikRb
   module Cursor
     class Cursor
+      include KittikRb::Cursor::Colors
       include KittikRb::Cursor::DisplayModes
 
       def initialize
