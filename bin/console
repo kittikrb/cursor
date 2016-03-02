@@ -10,7 +10,7 @@ def reload!
 end
 
 def run
-  KittikRb::Cursor::Cursor.new
+  KittikRb::Cursor.create
 end
 
 AwesomePrint.defaults = { indent: -2 }

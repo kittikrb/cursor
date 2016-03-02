@@ -20,6 +20,16 @@ Or install it yourself as:
 
     $ gem install kittikrb-cursor
 
+## Usage
+
+```ruby
+require 'kittikrb/cursor'
+
+cursor = KittikRb::Cursor.create.reset_tty!
+```
+
+See detailed usage examples in `examples` directory.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
