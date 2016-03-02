@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.required_rubygems_version = '~> 2.2'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |file|
-    file.match(%r{^(test|spec|features)/})
+    file.match(%r{^(test|spec|features|examples)/})
   end
 
   spec.require_paths = ['lib']
