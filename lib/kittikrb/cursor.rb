@@ -1,3 +1,5 @@
+require 'kittikrb/cursor/core_ext/hash'
+
 require 'kittikrb/cursor/version'
 require 'kittikrb/cursor/colors'
 require 'kittikrb/cursor/display_modes'
