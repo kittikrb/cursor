@@ -103,6 +103,37 @@ module KittikRb
         self
       end
 
+      def move_by(x, y)
+        x > 0 ? right(x) : left(x.abs)
+        y > 0 ? down(y) : up(y.abs)
+
+        self
+      end
+
+      def up(y = 1)
+        @y -= y.floor
+
+        self
+      end
+
+      def down(y = 1)
+        @y += y.floor
+
+        self
+      end
+
+      def left(x = 1)
+        @x -= x.floor
+
+        self
+      end
+
+      def right(x = 1)
+        @x += x.floor
+
+        self
+      end
+
       def write_control(str)
         $stdout.write(ESCAPE_CHAR + str)
       end

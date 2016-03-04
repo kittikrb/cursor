@@ -122,15 +122,89 @@ describe KittikRb::Cursor do
       end
     end
 
-    describe '#move_to' do
+    context 'move methods' do
       def current_coords
         [cursor.instance_variable_get(:@x), cursor.instance_variable_get(:@y)]
       end
 
-      it 'should properly set absolute position of cursor' do
+      before do
         expect(current_coords).to eq [0, 0]
-        expect(cursor.move_to(5, 10)).to be_instance_of described_class
-        expect(current_coords).to eq [5, 10]
+      end
+
+      describe '#move_to' do
+        it 'should properly set absolute position of cursor' do
+          expect(cursor.move_to(5, 10)).to be_instance_of described_class
+          expect(current_coords).to eq [5, 10]
+        end
+      end
+
+      describe '#move_by' do
+        it 'should properly move cursor right and down' do
+          expect(cursor).to receive(:right).with(7)
+          expect(cursor).to receive(:down).with(3)
+          expect(cursor.move_by(7, 3)).to be_instance_of described_class
+        end
+
+        it 'should properly move cursor left and up' do
+          expect(cursor).to receive(:left).with(2)
+          expect(cursor).to receive(:up).with(4)
+          expect(cursor.move_by(-2, -4)).to be_instance_of described_class
+        end
+
+        it 'should change current coordinates' do
+          cursor.move_by(7, 3)
+          expect(current_coords).to eq [7, 3]
+          cursor.move_by(-1, -1)
+          expect(current_coords).to eq [6, 2]
+        end
+      end
+
+      describe '#up' do
+        it 'should properly move cursor up with default arguments' do
+          expect(cursor.up).to be_instance_of described_class
+          expect(current_coords).to eq [0, -1]
+        end
+
+        it 'should properly move cursor up with argument' do
+          expect(cursor.up(3)).to be_instance_of described_class
+          expect(current_coords).to eq [0, -3]
+        end
+      end
+
+      describe '#down' do
+        it 'should properly move cursor down with default arguments' do
+          expect(cursor.down).to be_instance_of described_class
+          expect(current_coords).to eq [0, 1]
+        end
+
+        it 'should properly move cursor down with argument' do
+          expect(cursor.down(5)).to be_instance_of described_class
+          expect(current_coords).to eq [0, 5]
+        end
+      end
+
+      describe '#left' do
+        it 'should properly move cursor left with default arguments' do
+          expect(cursor.left).to be_instance_of described_class
+          expect(current_coords).to eq [-1, 0]
+        end
+
+        it 'should properly move cursor left with argument' do
+          expect(cursor.left(4)).to be_instance_of described_class
+          expect(current_coords).to eq [-4, 0]
+        end
+      end
+
+      describe '#right' do
+        it 'should properly move cursor right with default arguments' do
+          expect(cursor.right).to be_instance_of described_class
+          expect(current_coords).to eq [1, 0]
+        end
+
+        it 'should properly move cursor right with argument' do
+          expect(cursor.right(5)).to be_instance_of described_class
+          expect(current_coords).to eq [5, 0]
+        end
       end
     end
 
