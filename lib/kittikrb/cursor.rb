@@ -89,7 +89,7 @@ module KittikRb
 
       # Get index of the buffer from (x, y) coordinates.
       def get_pointer_from_xy(x = @x, y = @y)
-        y * @width + x;
+        y * @width + x
       end
 
       # Get (x, y) coordinate from the buffer pointer.
