@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.required_rubygems_version = '~> 2.2'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |file|
-    file.match(%r{^(test|spec|features)/})
+    file.match(%r{^(test|spec|features|examples)/})
   end
 
   spec.require_paths = ['lib']
@@ -26,4 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.10'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.4'
+  spec.add_development_dependency 'pry', '~> 0.10'
+  spec.add_development_dependency 'pry-stack_explorer', '~> 0.4'
+  spec.add_development_dependency 'pry-byebug', '~> 3.3'
+  spec.add_development_dependency 'awesome_print', '~> 1.6'
 end

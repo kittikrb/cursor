@@ -1,5 +1,7 @@
 # KittikRb::Cursor
 
+![Build Status](https://img.shields.io/travis/kittikrb/cursor.svg)
+
 Implements low-level API for access to cursor in terminal.
 
 ## Installation
@@ -17,6 +19,16 @@ And then execute:
 Or install it yourself as:
 
     $ gem install kittikrb-cursor
+
+## Usage
+
+```ruby
+require 'kittikrb/cursor'
+
+cursor = KittikRb::Cursor.create.reset_tty!
+```
+
+See detailed usage examples in `examples` directory.
 
 ## Development
 
