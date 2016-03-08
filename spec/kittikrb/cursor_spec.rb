@@ -292,6 +292,98 @@ describe KittikRb::Cursor do
       end
     end
 
+    context 'styling methods' do
+      let(:display) { cursor.instance_variable_get(:@display) }
+
+      describe '#foreground' do
+        it 'should properly set foreground color' do
+          expect(cursor.foreground(:green)).to be_instance_of described_class
+          expect(cursor.instance_variable_get(:@foreground)).to eq :green
+        end
+      end
+
+      describe '#background' do
+        it 'should properly set background color' do
+          expect(cursor.background(:red)).to be_instance_of described_class
+          expect(cursor.instance_variable_get(:@background)).to eq :red
+        end
+      end
+
+      describe '#bold' do
+        it 'should properly toggle bold mode' do
+          expect(cursor.bold).to be_instance_of described_class
+          expect(display[:bold]).to be_truthy
+
+          cursor.bold false
+          expect(display[:bold]).to be_falsey
+        end
+      end
+
+      describe '#dim' do
+        it 'should properly toggle dim mode' do
+          expect(cursor.dim).to be_instance_of described_class
+          expect(display[:dim]).to be_truthy
+
+          cursor.dim false
+          expect(display[:dim]).to be_falsey
+        end
+      end
+
+      describe '#underlined' do
+        it 'should properly toggle underlined mode' do
+          expect(cursor.underlined).to be_instance_of described_class
+          expect(display[:underlined]).to be_truthy
+
+          cursor.underlined false
+          expect(display[:underlined]).to be_falsey
+        end
+      end
+
+      describe '#blink' do
+        it 'should properly toggle blink mode' do
+          expect(cursor.blink).to be_instance_of described_class
+          expect(display[:blink]).to be_truthy
+
+          cursor.blink false
+          expect(display[:blink]).to be_falsey
+        end
+      end
+
+      describe '#reverse' do
+        it 'should properly toggle reverse mode' do
+          expect(cursor.reverse).to be_instance_of described_class
+          expect(display[:reverse]).to be_truthy
+
+          cursor.reverse false
+          expect(display[:reverse]).to be_falsey
+        end
+      end
+
+      describe '#hidden' do
+        it 'should properly toggle hidden mode' do
+          expect(cursor.hidden).to be_instance_of described_class
+          expect(display[:hidden]).to be_truthy
+
+          cursor.hidden false
+          expect(display[:hidden]).to be_falsey
+        end
+      end
+
+      describe '#hide_cursor' do
+        it 'should hide cursor' do
+          expect($stdout).to receive(:write).with("\e[?25l")
+          expect(cursor.hide_cursor).to be_instance_of described_class
+        end
+      end
+
+      describe '#show_cursor' do
+        it 'should show cursor' do
+          expect($stdout).to receive(:write).with("\e[?25h")
+          expect(cursor.show_cursor).to be_instance_of described_class
+        end
+      end
+    end
+
     describe '#write_control' do
       it 'should encode string and write control sequence to TTY' do
         expect($stdout).to receive(:write).with("\ec")

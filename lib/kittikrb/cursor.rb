@@ -199,6 +199,66 @@ module KittikRb
         self
       end
 
+      def foreground(color)
+        @foreground = color
+
+        self
+      end
+
+      def background(color)
+        @background = color
+
+        self
+      end
+
+      def bold(is_bold = true)
+        @display[:bold] = is_bold
+
+        self
+      end
+
+      def dim(is_dim = true)
+        @display[:dim] = is_dim
+
+        self
+      end
+
+      def underlined(is_underlined = true)
+        @display[:underlined] = is_underlined
+
+        self
+      end
+
+      def blink(is_blink = true)
+        @display[:blink] = is_blink
+
+        self
+      end
+
+      def reverse(is_reverse = true)
+        @display[:reverse] = is_reverse
+
+        self
+      end
+
+      def hidden(is_hidden = true)
+        @display[:hidden] = is_hidden
+
+        self
+      end
+
+      def hide_cursor
+        write_control('[?25l')
+
+        self
+      end
+
+      def show_cursor
+        write_control('[?25h')
+
+        self
+      end
+
       private
       ########################################################################
 
