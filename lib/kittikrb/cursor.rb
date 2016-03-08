@@ -146,6 +146,59 @@ module KittikRb
         self
       end
 
+      # Erase the specified region.
+      # The region describes the rectangle shape which need to erase.
+      def erase(x1, y1, x2, y2)
+        y1.floor.upto(y2.floor) do |y|
+          x1.floor.upto(x2.floor) do |x|
+            @buffer[get_pointer_from_xy(x, y)] = self.class.wrap ' ', { x: x,
+                                                                        y: y }
+          end
+        end
+
+        self
+      end
+
+      # Erase from current position to end of the line.
+      def erase_to_end
+        erase @x, @y, @width - 1, @y
+
+        self
+      end
+
+      # Erase from current position to start of the line.
+      def erase_to_start
+        erase 0, @y, @x, @y
+
+        self
+      end
+
+      # Erase from current line to up.
+      def erase_to_up
+        erase 0, 0, @width - 1, @y
+
+        self
+      end
+
+      # Erase from current line to down.
+      def erase_to_down
+        erase 0, @y, @width - 1, @height - 1
+
+        self
+      end
+
+      def erase_line
+        erase 0, @y, @width - 1, @y
+
+        self
+      end
+
+      def erase_screen
+        erase 0, 0, @width - 1, @height - 1
+
+        self
+      end
+
       private
       ########################################################################
 

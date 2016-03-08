@@ -208,6 +208,90 @@ describe KittikRb::Cursor do
       end
     end
 
+    context 'erase methods' do
+      let(:width) { $stdout.winsize[1] }
+      let(:height) { $stdout.winsize[0] }
+
+      describe '#erase' do
+        def get_buffer_in_xy(x, y)
+          pointer = cursor.get_pointer_from_xy(x, y)
+          cursor.instance_variable_get(:@buffer)[pointer]
+        end
+
+        def build_char_in_xy(chr, x, y)
+          cursor.class.wrap chr, { x: x, y: y }
+        end
+
+        it 'should properly erase the specified region' do
+          (height - 1).times do |y|
+            cursor.move_to 0, y
+            (width - 1).times { cursor.write 'a' }
+          end
+
+          expect(cursor.erase(1, 1, 3, 2)).to be_instance_of described_class
+          1.upto(2) do |y|
+            1.upto(3) do |x|
+              expect(get_buffer_in_xy(x, y)).to eq build_char_in_xy(' ', x, y)
+            end
+          end
+          expect(get_buffer_in_xy(0, 1)).to eq build_char_in_xy('a', 0, 1)
+        end
+      end
+
+      describe '#erase_to_end' do
+        it 'should properly erase all chars to the end current row' do
+          cursor.move_to 5, 6
+
+          expect(cursor).to receive(:erase).with(5, 6, width - 1, 6)
+          expect(cursor.erase_to_end).to be_instance_of described_class
+        end
+      end
+
+      describe '#erase_to_start' do
+        it 'should properly erase all chars to current position in row' do
+          cursor.move_to 5, 6
+
+          expect(cursor).to receive(:erase).with(0, 6, 5, 6)
+          expect(cursor.erase_to_start).to be_instance_of described_class
+        end
+      end
+
+      describe '#erase_to_down' do
+        it 'should properly erase all chars from current row to down' do
+          cursor.move_to 5, 6
+
+          expect(cursor)
+            .to receive(:erase).with(0, 6, width - 1, height - 1)
+          expect(cursor.erase_to_down).to be_instance_of described_class
+        end
+      end
+
+      describe '#erase_to_up' do
+        it 'should properly erase all chars from current row to up' do
+          cursor.move_to 5, 6
+
+          expect(cursor).to receive(:erase).with(0, 0, width - 1, 6)
+          expect(cursor.erase_to_up).to be_instance_of described_class
+        end
+      end
+
+      describe '#erase_line' do
+        it 'should properly erase all chars in current row' do
+          cursor.move_to 5, 6
+
+          expect(cursor).to receive(:erase).with(0, 6, width - 1, 6)
+          expect(cursor.erase_line).to be_instance_of described_class
+        end
+      end
+
+      describe '#erase_screen' do
+        it 'should properly erase screen' do
+          expect(cursor).to receive(:erase).with(0, 0, width - 1, height - 1)
+          expect(cursor.erase_screen).to be_instance_of described_class
+        end
+      end
+    end
+
     describe '#write_control' do
       it 'should encode string and write control sequence to TTY' do
         expect($stdout).to receive(:write).with("\ec")
