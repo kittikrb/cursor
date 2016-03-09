@@ -24,7 +24,7 @@ describe KittikRb::Cursor do
     describe '#self.wrap' do
       let(:x) { 0 }
       let(:y) { 0 }
-      let(:display) { { bold: true, underlined: true } }
+      let(:display) { {bold: true, underlined: true} }
 
       it 'should properly wrap the char with control sequence' do
         expect(described_class.wrap(' ', x: x, y: y)).to eq "\e[1;1f \e[0m"
@@ -61,6 +61,7 @@ describe KittikRb::Cursor do
 
     describe '#write' do
       let(:data) { 'test' }
+
       def check_buffer_data
         buffer = cursor.instance_variable_get(:@buffer)
         data.chars.each_with_index do |char, i|
@@ -131,6 +132,54 @@ describe KittikRb::Cursor do
         expect(current_coords).to eq [0, 0]
         expect(cursor.move_to(5, 10)).to be_instance_of described_class
         expect(current_coords).to eq [5, 10]
+      end
+    end
+
+    describe '#up' do
+      it 'should properly set absolute position of cursor' do
+        expect(cursor.up).to be_instance_of described_class
+      end
+      it 'should properly set absolute position of cursor position' do
+        expect(cursor.up(5)).to be_instance_of described_class
+      end
+    end
+
+    describe '#down' do
+      it 'should properly set absolute position of cursor' do
+        expect(cursor.down).to be_instance_of described_class
+      end
+      it 'should properly set absolute position of cursor position' do
+        expect(cursor.down(5)).to be_instance_of described_class
+      end
+    end
+
+    describe '#left' do
+      it 'should properly set absolute position of cursor' do
+        expect(cursor.left).to be_instance_of described_class
+      end
+      it 'should properly set absolute position of cursor position' do
+        expect(cursor.left(5)).to be_instance_of described_class
+      end
+    end
+
+    describe '#right' do
+      it 'should properly set absolute position of cursor' do
+        expect(cursor.right).to be_instance_of described_class
+      end
+      it 'should properly set absolute position of cursor position' do
+        expect(cursor.right(5)).to be_instance_of described_class
+      end
+    end
+
+    describe '#move_by' do
+      def current_coords
+        [cursor.instance_variable_get(:@x), cursor.instance_variable_get(:@y)]
+      end
+
+      it 'should properly set absolute position of cursor' do
+        expect(current_coords).to eq [0, 0]
+        expect(cursor.move_by(3, -7)).to be_instance_of described_class
+        expect(current_coords).to eq [3, -7]
       end
     end
 

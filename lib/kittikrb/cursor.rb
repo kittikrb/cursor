@@ -64,10 +64,10 @@ module KittikRb
       def write(data)
         data.chars.each do |char|
           if cursor_in_bounding_box?
-            options = { x: @x, y: @y,
-                        background: @background,
-                        foreground: @foreground,
-                        display: @display }
+            options = {x: @x, y: @y,
+                       background: @background,
+                       foreground: @foreground,
+                       display: @display}
             @buffer[get_pointer_from_xy] = self.class.wrap char, options
           end
 
@@ -92,6 +92,34 @@ module KittikRb
         y * @width + x;
       end
 
+      # Cursor up
+      def up(y = 1)
+        @y -= y.floor
+
+        self
+      end
+
+      # Cursor down
+      def down(y = 1)
+        @y += y.floor
+
+        self
+      end
+
+      # Cursor left
+      def left(x = 1)
+        @x -= x.floor
+
+        self
+      end
+
+      # Cursor right
+      def right(x = 1)
+        @x += x.floor
+
+        self
+      end
+
       # Get (x, y) coordinate from the buffer pointer.
       def get_xy_from_pointer(index)
         [index - (index / @width).floor * @width, (index / @width).floor]
@@ -99,6 +127,15 @@ module KittikRb
 
       def move_to(x, y)
         @x, @y = x.floor, y.floor
+
+        self
+      end
+
+      def move_by(x, y)
+        up(-y) if y > 0
+        down(y) if y < 0
+        left(-x) if x < 0
+        right(x) if x > 0
 
         self
       end
@@ -121,12 +158,14 @@ module KittikRb
       def self.wrap_position(x, y)
         ESCAPE_CHAR + "[#{(y + 1).floor};#{(x + 1).floor}f"
       end
+
       private_class_method :wrap_position
 
       def self.wrap_ground_colors(foreground: nil, background: nil)
         [(ESCAPE_CHAR + "[48;5;#{COLORS[background]}m" if background),
          (ESCAPE_CHAR + "[38;5;#{COLORS[foreground]}m" if foreground)].join
       end
+
       private_class_method :wrap_ground_colors
 
       def self.wrap_display_modes(options = {})
@@ -134,6 +173,7 @@ module KittikRb
           ESCAPE_CHAR + "[#{DISPLAY_MODES[key]}m" if options[key]
         end.join
       end
+
       private_class_method :wrap_display_modes
 
       def update_rendered_buffer!
