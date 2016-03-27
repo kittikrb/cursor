@@ -1,4 +1,4 @@
-require 'kittikrb/cursor/core_ext/hash'
+require 'kittikrb/cursor/core_patches/hash'
 
 require 'kittikrb/cursor/version'
 require 'kittikrb/cursor/colors'
@@ -17,6 +17,7 @@ require 'io/console'
 
 module KittikRb
   module Cursor
+    using CorePatches::HashPatch
 
     def self.create
       Cursor.new
