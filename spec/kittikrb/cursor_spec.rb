@@ -6,7 +6,7 @@ describe KittikRb::Cursor do
   end
 
   describe '#create' do
-    it 'should return a new instance of KittikRb::Cursor::Cursor' do
+    it 'should create a new instance of KittikRb::Cursor::Cursor' do
       expect(KittikRb::Cursor.create).
         to be_instance_of KittikRb::Cursor::Cursor
     end
@@ -16,7 +16,7 @@ describe KittikRb::Cursor do
     let!(:cursor) { KittikRb::Cursor::Cursor.new }
 
     describe '#self.encode_to_vt100' do
-      it 'should return escaped string' do
+      it 'should properly encode to VT100 compatible symbol' do
         expect(described_class.encode_to_vt100('c')).to eq "\ec"
       end
     end
@@ -239,7 +239,7 @@ describe KittikRb::Cursor do
       end
 
       describe '#erase_to_end' do
-        it 'should properly erase all chars to the end current row' do
+        it 'should properly erase from current position to the end of line' do
           cursor.move_to 5, 6
 
           expect(cursor).to receive(:erase).with(5, 6, width - 1, 6)
@@ -248,7 +248,7 @@ describe KittikRb::Cursor do
       end
 
       describe '#erase_to_start' do
-        it 'should properly erase all chars to current position in row' do
+        it 'should properly erase from current position to the start of line'do
           cursor.move_to 5, 6
 
           expect(cursor).to receive(:erase).with(0, 6, 5, 6)
@@ -257,7 +257,7 @@ describe KittikRb::Cursor do
       end
 
       describe '#erase_to_down' do
-        it 'should properly erase all chars from current row to down' do
+        it 'should properly erase from current line to down' do
           cursor.move_to 5, 6
 
           expect(cursor)
@@ -267,7 +267,7 @@ describe KittikRb::Cursor do
       end
 
       describe '#erase_to_up' do
-        it 'should properly erase all chars from current row to up' do
+        it 'should properly erase from current line to up' do
           cursor.move_to 5, 6
 
           expect(cursor).to receive(:erase).with(0, 0, width - 1, 6)
@@ -276,7 +276,7 @@ describe KittikRb::Cursor do
       end
 
       describe '#erase_line' do
-        it 'should properly erase all chars in current row' do
+        it 'should properly erase the current line' do
           cursor.move_to 5, 6
 
           expect(cursor).to receive(:erase).with(0, 6, width - 1, 6)
@@ -285,7 +285,7 @@ describe KittikRb::Cursor do
       end
 
       describe '#erase_screen' do
-        it 'should properly erase screen' do
+        it 'should properly erase the entire screen' do
           expect(cursor).to receive(:erase).with(0, 0, width - 1, height - 1)
           expect(cursor.erase_screen).to be_instance_of described_class
         end
@@ -368,19 +368,19 @@ describe KittikRb::Cursor do
           expect(display[:hidden]).to be_falsey
         end
       end
+    end
 
-      describe '#hide_cursor' do
-        it 'should hide cursor' do
-          expect($stdout).to receive(:write).with("\e[?25l")
-          expect(cursor.hide_cursor).to be_instance_of described_class
-        end
+    describe '#hide_cursor' do
+      it 'should hide cursor' do
+        expect($stdout).to receive(:write).with("\e[?25l")
+        expect(cursor.hide_cursor).to be_instance_of described_class
       end
+    end
 
-      describe '#show_cursor' do
-        it 'should show cursor' do
-          expect($stdout).to receive(:write).with("\e[?25h")
-          expect(cursor.show_cursor).to be_instance_of described_class
-        end
+    describe '#show_cursor' do
+      it 'should show cursor' do
+        expect($stdout).to receive(:write).with("\e[?25h")
+        expect(cursor.show_cursor).to be_instance_of described_class
       end
     end
 

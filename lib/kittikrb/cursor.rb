@@ -37,7 +37,6 @@ module KittikRb
       }
       ESCAPE_CHAR = "\e"
 
-      # Only for compatibility with KittikJs API
       def self.encode_to_vt100(str)
         ESCAPE_CHAR + str
       end
@@ -135,18 +134,6 @@ module KittikRb
         self
       end
 
-      def write_control(str)
-        $stdout.write(ESCAPE_CHAR + str)
-      end
-
-      # Reset all terminal settings.
-      # Applies immediately without calling flush.
-      def reset_tty!
-        write_control 'c'
-
-        self
-      end
-
       # Erase the specified region.
       # The region describes the rectangle shape which need to erase.
       def erase(x1, y1, x2, y2)
@@ -174,16 +161,16 @@ module KittikRb
         self
       end
 
-      # Erase from current line to up.
-      def erase_to_up
-        erase 0, 0, @width - 1, @y
+      # Erase from current line to down.
+      def erase_to_down
+        erase 0, @y, @width - 1, @height - 1
 
         self
       end
 
-      # Erase from current line to down.
-      def erase_to_down
-        erase 0, @y, @width - 1, @height - 1
+      # Erase from current line to up.
+      def erase_to_up
+        erase 0, 0, @width - 1, @y
 
         self
       end
@@ -256,6 +243,18 @@ module KittikRb
 
       def show_cursor
         write_control('[?25h')
+
+        self
+      end
+
+      def write_control(str)
+        $stdout.write(ESCAPE_CHAR + str)
+      end
+
+      # Reset all terminal settings.
+      # Applies immediately without calling flush.
+      def reset_tty!
+        write_control 'c'
 
         self
       end
