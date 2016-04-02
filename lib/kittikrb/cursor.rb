@@ -1,4 +1,4 @@
-require 'kittikrb/cursor/core_ext/hash'
+require 'kittikrb/cursor/core_patches/hash'
 
 require 'kittikrb/cursor/version'
 require 'kittikrb/cursor/colors'
@@ -17,6 +17,7 @@ require 'io/console'
 
 module KittikRb
   module Cursor
+    using CorePatches::HashPatch
 
     def self.create
       Cursor.new
@@ -36,7 +37,6 @@ module KittikRb
       }
       ESCAPE_CHAR = "\e"
 
-      # Only for compatibility with KittikJs API
       def self.encode_to_vt100(str)
         ESCAPE_CHAR + str
       end
@@ -89,7 +89,7 @@ module KittikRb
 
       # Get index of the buffer from (x, y) coordinates.
       def get_pointer_from_xy(x = @x, y = @y)
-        y * @width + x;
+        y * @width + x
       end
 
       # Get (x, y) coordinate from the buffer pointer.
@@ -99,6 +99,150 @@ module KittikRb
 
       def move_to(x, y)
         @x, @y = x.floor, y.floor
+
+        self
+      end
+
+      def move_by(x, y)
+        x > 0 ? right(x) : left(x.abs)
+        y > 0 ? down(y) : up(y.abs)
+
+        self
+      end
+
+      def up(y = 1)
+        @y -= y.floor
+
+        self
+      end
+
+      def down(y = 1)
+        @y += y.floor
+
+        self
+      end
+
+      def left(x = 1)
+        @x -= x.floor
+
+        self
+      end
+
+      def right(x = 1)
+        @x += x.floor
+
+        self
+      end
+
+      # Erase the specified region.
+      # The region describes the rectangle shape which need to erase.
+      def erase(x1, y1, x2, y2)
+        y1.floor.upto(y2.floor) do |y|
+          x1.floor.upto(x2.floor) do |x|
+            @buffer[get_pointer_from_xy(x, y)] = self.class.wrap ' ', { x: x,
+                                                                        y: y }
+          end
+        end
+
+        self
+      end
+
+      # Erase from current position to end of the line.
+      def erase_to_end
+        erase @x, @y, @width - 1, @y
+
+        self
+      end
+
+      # Erase from current position to start of the line.
+      def erase_to_start
+        erase 0, @y, @x, @y
+
+        self
+      end
+
+      # Erase from current line to down.
+      def erase_to_down
+        erase 0, @y, @width - 1, @height - 1
+
+        self
+      end
+
+      # Erase from current line to up.
+      def erase_to_up
+        erase 0, 0, @width - 1, @y
+
+        self
+      end
+
+      def erase_line
+        erase 0, @y, @width - 1, @y
+
+        self
+      end
+
+      def erase_screen
+        erase 0, 0, @width - 1, @height - 1
+
+        self
+      end
+
+      def foreground(color)
+        @foreground = color
+
+        self
+      end
+
+      def background(color)
+        @background = color
+
+        self
+      end
+
+      def bold(is_bold = true)
+        @display[:bold] = is_bold
+
+        self
+      end
+
+      def dim(is_dim = true)
+        @display[:dim] = is_dim
+
+        self
+      end
+
+      def underlined(is_underlined = true)
+        @display[:underlined] = is_underlined
+
+        self
+      end
+
+      def blink(is_blink = true)
+        @display[:blink] = is_blink
+
+        self
+      end
+
+      def reverse(is_reverse = true)
+        @display[:reverse] = is_reverse
+
+        self
+      end
+
+      def hidden(is_hidden = true)
+        @display[:hidden] = is_hidden
+
+        self
+      end
+
+      def hide_cursor
+        write_control('[?25l')
+
+        self
+      end
+
+      def show_cursor
+        write_control('[?25h')
 
         self
       end

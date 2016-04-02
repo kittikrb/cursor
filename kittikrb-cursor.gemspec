@@ -10,10 +10,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Vladyslav Siriniok']
   spec.email         = ['siriniok@gmail.com']
   spec.license       = 'MIT'
-  spec.summary       = %q{ Low-level API for cursor in terminal.' }
+  spec.summary       = %q{ Low-level API for cursor in terminal. }
   spec.description   = %q{ Implements low-level API for access to cursor in
     terminal.' }
-  spec.homepage      = 'https://github.com/kittikjs/cursor'
+  spec.homepage      = 'https://github.com/kittikrb/cursor'
   spec.required_ruby_version = '~> 2.2'
   spec.required_rubygems_version = '~> 2.2'
 
