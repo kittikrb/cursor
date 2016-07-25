@@ -4,11 +4,13 @@ require 'kittikrb/cursor/version'
 require 'kittikrb/cursor/colors'
 require 'kittikrb/cursor/display_modes'
 
+require 'kittikrb/cursor/cell'
+
 require 'set'
 require 'io/console'
 
 ##
-# Cursor implements low-level API to terminal control codes.
+# Cursor implements low-level API to terminal cursor.
 # See links below for details:
 # http://www.termsys.demon.co.uk/vtansi.htm
 # http://misc.flogisoft.com/bash/tip_colors_and_formatting
