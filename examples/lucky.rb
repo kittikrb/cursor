@@ -1,20 +1,10 @@
-require 'kittikrb/cursor'
-
-def set_interval(delay)
-  Thread.new do
-    loop do
-      sleep delay
-
-      yield
-    end
-  end.join
-end
+require "kittikrb/cursor"
 
 cursor = KittikRb::Cursor.create.reset_tty!
 COLORS = [:red, :silver, :yellow, :green, :blue].cycle
-TEXT = 'Always after me lucky charms.'.chars.cycle
+TEXT = "Always after me lucky charms.".chars.cycle
 
-set_interval(0.15) do
+loop do
   y, dy = 0, 1
 
   0.upto(40) do |i|
@@ -24,4 +14,6 @@ set_interval(0.15) do
   end
 
   cursor.move_to(0, 0).flush
+
+  sleep 0.15
 end
