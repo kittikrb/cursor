@@ -1,4 +1,4 @@
-require 'kittikrb/cursor'
+require "kittikrb/cursor"
 
 module KittikRb
 end

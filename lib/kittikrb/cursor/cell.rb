@@ -13,7 +13,7 @@ module KittikRb
       attr_reader :char
       attr_accessor :x, :y
 
-      def initialize(char = ' ', options = {})
+      def initialize(char = " ", options = {})
         @char = char
         @x, @y = options[:x], options[:y]
       end

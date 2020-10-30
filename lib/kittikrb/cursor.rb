@@ -1,13 +1,13 @@
-require 'kittikrb/cursor/core_patches/hash'
+require "kittikrb/cursor/core_patches/hash"
 
-require 'kittikrb/cursor/version'
-require 'kittikrb/cursor/colors'
-require 'kittikrb/cursor/display_modes'
+require "kittikrb/cursor/version"
+require "kittikrb/cursor/colors"
+require "kittikrb/cursor/display_modes"
 
-require 'kittikrb/cursor/cell'
+require "kittikrb/cursor/cell"
 
-require 'set'
-require 'io/console'
+require "set"
+require "io/console"
 
 ##
 # Cursor implements low-level API to terminal cursor.
@@ -58,7 +58,7 @@ module KittikRb
         @x, @y = 0, 0
         @background, @foreground = false, false
         @display = DISPLAY_CONFIG
-        @buffer = Array.new(@width * @height, ' ')
+        @buffer = Array.new(@width * @height, " ")
         update_rendered_buffer!
       end
 
@@ -66,10 +66,10 @@ module KittikRb
       def write(data)
         data.chars.each do |char|
           if cursor_in_bounding_box?
-            options = { x: @x, y: @y,
-                        background: @background,
-                        foreground: @foreground,
-                        display: @display }
+            options = {x: @x, y: @y,
+                       background: @background,
+                       foreground: @foreground,
+                       display: @display}
             @buffer[get_pointer_from_xy] = self.class.wrap char, options
           end
 
@@ -141,8 +141,8 @@ module KittikRb
       def erase(x1, y1, x2, y2)
         y1.floor.upto(y2.floor) do |y|
           x1.floor.upto(x2.floor) do |x|
-            @buffer[get_pointer_from_xy(x, y)] = self.class.wrap ' ', { x: x,
-                                                                        y: y }
+            @buffer[get_pointer_from_xy(x, y)] = self.class.wrap " ", {x: x,
+                                                                       y: y}
           end
         end
 
@@ -238,13 +238,13 @@ module KittikRb
       end
 
       def hide_cursor
-        write_control('[?25l')
+        write_control("[?25l")
 
         self
       end
 
       def show_cursor
-        write_control('[?25h')
+        write_control("[?25h")
 
         self
       end
@@ -256,12 +256,13 @@ module KittikRb
       # Reset all terminal settings.
       # Applies immediately without calling flush.
       def reset_tty!
-        write_control 'c'
+        write_control "c"
 
         self
       end
 
       private
+
       ########################################################################
 
       def self.wrap_position(x, y)
@@ -271,14 +272,14 @@ module KittikRb
 
       def self.wrap_ground_colors(foreground: nil, background: nil)
         [(ESCAPE_CHAR + "[48;5;#{COLORS[background]}m" if background),
-         (ESCAPE_CHAR + "[38;5;#{COLORS[foreground]}m" if foreground)].join
+          (ESCAPE_CHAR + "[38;5;#{COLORS[foreground]}m" if foreground)].join
       end
       private_class_method :wrap_ground_colors
 
       def self.wrap_display_modes(options = {})
-        DISPLAY_MODES.map do |key, value|
+        DISPLAY_MODES.map { |key, value|
           ESCAPE_CHAR + "[#{DISPLAY_MODES[key]}m" if options[key]
-        end.join
+        }.join
       end
       private_class_method :wrap_display_modes
 

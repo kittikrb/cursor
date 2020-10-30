@@ -1,9 +1,9 @@
-require 'kittikrb/cursor'
+require "kittikrb/cursor"
 
 cursor = KittikRb::Cursor.create.reset_tty!
 
-TITLE = 'This example shows how fast builds difference between two frames'
-EXAMPLE_STRING = 'ABCDEFGHIJKLMNOP'
+TITLE = "This example shows how fast builds difference between two frames"
+EXAMPLE_STRING = "ABCDEFGHIJKLMNOP"
 
 x, y = 0, 0
 height, width = $stdout.winsize

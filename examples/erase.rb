@@ -1,4 +1,4 @@
-require 'kittikrb/cursor'
+require "kittikrb/cursor"
 
 def sleep_for_one_second
   sleep 1
@@ -8,7 +8,7 @@ cursor = KittikRb::Cursor.create.reset_tty!.hide_cursor
 height, width = $stdout.winsize
 
 0.upto height do |y|
-  cursor.move_to(0, y).write('E' * width)
+  cursor.move_to(0, y).write("E" * width)
 end
 
 cursor.move_to(width / 2, height / 2).flush

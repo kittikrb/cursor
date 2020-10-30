@@ -1,4 +1,4 @@
-require 'kittikrb/cursor'
+require "kittikrb/cursor"
 
 cursor = KittikRb::Cursor.create.reset_tty!
 
@@ -15,7 +15,7 @@ loop do
   points.unshift([x, y])
   points.each_with_index do |p, i|
     cursor.move_to(*p)
-    cursor.background(COLORS[(i / 12).floor]).write(' ').flush
+    cursor.background(COLORS[(i / 12).floor]).write(" ").flush
   end
 
   points = points.slice(0, 12 * COLORS.size - 1)

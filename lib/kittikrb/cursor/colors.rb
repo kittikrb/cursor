@@ -1,7 +1,6 @@
 module KittikRb
   module Cursor
     module Colors
-
       # The colors number 256 is only supported by vte (GNOME Terminal, XFCE4
       # Terminal, Nautilus Terminal, Terminator, ...)
 

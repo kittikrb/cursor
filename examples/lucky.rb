@@ -1,8 +1,8 @@
-require 'kittikrb/cursor'
+require "kittikrb/cursor"
 
 cursor = KittikRb::Cursor.create.reset_tty!
 COLORS = [:red, :silver, :yellow, :green, :blue].cycle
-TEXT = 'Always after me lucky charms.'.chars.cycle
+TEXT = "Always after me lucky charms.".chars.cycle
 
 loop do
   y, dy = 0, 1
