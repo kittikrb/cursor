@@ -3,6 +3,7 @@ require "kittikrb/cursor/core_patches/hash"
 require "kittikrb/cursor/version"
 require "kittikrb/cursor/colors"
 require "kittikrb/cursor/display_modes"
+require "kittikrb/cursor/encode_to_vt100"
 
 require "kittikrb/cursor/cell"
 
